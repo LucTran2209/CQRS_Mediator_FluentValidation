@@ -3,6 +3,8 @@ using T.Persistence.DependencyInjection.Extentions;
 using T.Infastructure.DependencyInjection.Extentions;
 using Microsoft.Extensions.DependencyInjection;
 using T.Core.DependencyInjection.Extentions;
+using Microsoft.OpenApi.Models;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 
 namespace T.API
@@ -18,7 +20,12 @@ namespace T.API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.OperationFilter<SwaggerFileOperationFilter>();
+            });
+
+
             // # PERSISTENCE LAYER
             builder.Services.AddSqlServerPersistence(builder.Configuration.GetConnectionString("SqlServerConnection").ToString());
 
@@ -38,8 +45,14 @@ namespace T.API
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Title v1");
+            //    // Enable support for file uploads
+            //    c.EnableFileUploading();
+            //});
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

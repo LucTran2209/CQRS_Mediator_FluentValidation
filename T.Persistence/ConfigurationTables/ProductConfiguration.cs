@@ -16,7 +16,7 @@ namespace T.Persistence.ConfigurationTables
             builder.HasKey(x => x.Id);
 
             //Set Property in table
-            builder.Property(x => x.ProductName)
+            builder.Property(x => x.ProductName)    
                 .HasDefaultValue(null)
                 .IsRequired();
 

@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit.Cryptography;
+using T.Core.WithCQRS_Mediator.CQRS.Products.Commands;
 using T.Core.WithCQRS_Mediator.CQRS.ProductService.ModelCommandQuery;
 
 namespace T.API.Controllers
@@ -73,6 +74,24 @@ namespace T.API.Controllers
                 throw;
             }
         }
+
+        [HttpPost("ExcelFile")]
+        public async Task<IActionResult> InsertProductByExcelFile([FromForm] CreateProductExcelCommand command)
+        {
+            try
+            {       
+                var isSussess = await _mediator.Send(command);
+                
+                return Ok(isSussess);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+                throw;
+            }
+        }
+
 
         // Test
         [HttpPost("Search")]
